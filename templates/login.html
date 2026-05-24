@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>🔐 Login</h2>
+    {% if error %}
+        <p style="color:#ff3333; background: rgba(255, 51, 51, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #ff3333;">
+            <b>⚠️ {{ error }}</b>
+        </p>
+    {% endif %}
+
+    <form method="POST">
+        <div>
+            <label for="username">👤 Username:</label>
+            <input type="text" name="username" id="username" placeholder="Enter your username" required>
+        </div>
+
+        <div>
+            <label for="password">🔑 Password:</label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit">🚀 Login</button>
+    </form>
+
+    <p style="text-align: center; margin-top: 20px; color: #00d4ff;">
+        Don't have an account? <a href="/register" style="text-decoration: none; color: #00ff88; font-weight: bold;">Create one now! →</a>
+    </p>
+</div>
+{% endblock %}
+

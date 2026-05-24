@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+
+    <h2>📅 Monthly Expense Summary</h2>
+
+    <table class="styled-table monthly-table">
+        <thead>
+            <tr>
+                <th>📆 Month</th>
+                <th>💰 Total Amount (₹)</th>
+                <th>⚡ Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if monthly %}
+                {% for row in monthly %}
+                <tr>
+                    <td><strong>{{ row.month }}</strong></td>
+                    <td><strong>₹ {{ row.total }}</strong></td>
+                    <td>
+                        <a href="/export/{{ row.month }}" class="btn-link">
+                            📥 Download CSV
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 30px; color: #00ffff;">
+                        ✨ No monthly data available yet!
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="/" class="back-link">🏠 Back to Home</a>
+    </div>
+
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+
+    <h2>📊 User Activity Analytics</h2>
+
+    {% if error %}
+        <p style="color:#ff3333; background: rgba(255, 51, 51, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #ff3333;">
+            <b>⚠️ {{ error }}</b>
+        </p>
+        <div style="text-align: center; margin-top: 20px;">
+            <form method="GET" class="filter-form" style="max-width: 400px; margin: auto;">
+                <input type="password" name="pwd" placeholder="Enter admin password" required style="flex: 1;">
+                <button type="submit">🔓 Unlock</button>
+            </form>
+        </div>
+    {% else %}
+        <div style="background: rgba(0, 255, 136, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #00ff88; margin-bottom: 25px;">
+            <p style="color: #00ff88;"><strong>✅ Total Users Tracked:</strong> 
+                <span style="color: #00d4ff; font-size: 1.3em;">
+                    {{ activities|map(attribute='username')|list|unique|length }}
+                </span>
+            </p>
+            <p style="color: #00ff88;"><strong>📈 Total Activities:</strong> 
+                <span style="color: #00d4ff; font-size: 1.3em;">
+                    {{ activities|length }}
+                </span>
+            </p>
+        </div>
+
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>👤 Username</th>
+                    <th>⚡ Activity</th>
+                    <th>🕐 Timestamp</th>
+                    <th>🌐 IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if activities %}
+                    {% for activity in activities %}
+                    <tr>
+                        <td><strong>{{ activity.username }}</strong></td>
+                        <td>
+                            {% if activity.activity == 'LOGGED_IN' %}
+                                <span style="color: #00ff88;">✅ Logged In</span>
+                            {% elif activity.activity == 'REGISTERED' %}
+                                <span style="color: #00d4ff;">✨ Registered</span>
+                            {% elif activity.activity == 'FAILED_LOGIN' %}
+                                <span style="color: #ff3333;">❌ Failed Login</span>
+                            {% else %}
+                                {{ activity.activity }}
+                            {% endif %}
+                        </td>
+                        <td>{{ activity.timestamp }}</td>
+                        <td>{{ activity.ip_address }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 30px; color: #00ffff;">
+                            ✨ No activity recorded yet!
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <br><br>
+        <div style="text-align: center;">
+            <a href="/" class="back-link">🏠 Back to Home</a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

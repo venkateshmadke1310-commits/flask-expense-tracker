@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <h2>📈 Category-wise Expense Summary</h2>
+
+    <table class="summary-table">
+        <thead>
+            <tr>
+                <th>🏷️ Category</th>
+                <th>💰 Total Amount</th>
+                <th>📊 Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set grand_total = 0 %}
+            {% for row in summary %}
+                {% set grand_total = grand_total + row.total %}
+            {% endfor %}
+            
+            {% for row in summary %}
+            <tr>
+                <td><strong>{{ row.category }}</strong></td>
+                <td><strong>₹ {{ row.total }}</strong></td>
+                <td>{{ "%.1f"|format((row.total / grand_total * 100) if grand_total > 0 else 0) }}%</td>
+            </tr>
+            {% endfor %}
+            
+            <tr style="background: rgba(0, 255, 136, 0.1); font-weight: bold;">
+                <td>📊 Total</td>
+                <td>₹ {{ grand_total }}</td>
+                <td>100%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="/" class="back-link">🏠 Back to Home</a>
+    </div>
+</div>
+{% endblock %}
